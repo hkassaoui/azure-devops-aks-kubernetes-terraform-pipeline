@@ -16,27 +16,32 @@ stages:
      - job: TerrafomValidateJob
        continueOnError: false
        steps:
-       - task: PublishPipelineArtifact@0
+       - task: PublishPipelineArtifact@1
          displayName: Publish Artifacts
          inputs:
            targetPath: '$(System.DefaultWorkingDirectory)/terraform-manifests'
            artifact: 'terraform-manifests-out'
            publishLocation: 'pipeline'
-       - task: TerraformInstaller@0
-         displayName: Terraform Install
+
+       - task: TerraformInstaller@2
          inputs:
            terraformVersion: 'latest'
-       - task: TerraformTask@5
+       - task: TerraformCLI@2
          inputs:
-           provider: 'azurerm'
            command: 'init'
            workingDirectory: '$(System.DefaultWorkingDirectory)/terraform-manifests'
+           backendType: 'azurerm'
            backendServiceArm: 'terraform-aks-azurerm-svc-con'
+           backendAzureRmTenantId: '11624657-8ca2-4ce5-81c7-dcc936cbec0c'
+           backendAzureRmSubscriptionId: '65e65286-7f71-4ee3-9265-f7e2bc7e82c5'
+           backendAzureRmResourceGroupName: 'terraform-storage-rg'
            backendAzureRmStorageAccountName: 'hichemsa'
            backendAzureRmContainerName: 'tfstatefiles'
-       - task: TerraformTask@5
+           allowTelemetryCollection: false
+
+       - task: TerraformCLI@2
          inputs:
-           provider: 'azurerm'
            command: 'validate'
            workingDirectory: '$(System.DefaultWorkingDirectory)/terraform-manifests'
+           allowTelemetryCollection: true
 
