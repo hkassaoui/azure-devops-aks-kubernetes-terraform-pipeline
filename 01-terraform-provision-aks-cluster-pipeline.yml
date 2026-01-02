@@ -87,6 +87,7 @@ stages:
                 ensureBackend: true
                 backendAzureRmResourceGroupName: 'terraform-storage-rg'
                 backendAzureRmStorageAccountName: 'hichemsa'
+                backendAzureRmStorageAccountSku: 'Standard_LRS'
                 backendAzureRmContainerName: 'tfstatefiles'
                 backendAzureRmKey: 'aks-$(DEV_ENVIRONMENT).tfstate'
                 allowTelemetryCollection: false
