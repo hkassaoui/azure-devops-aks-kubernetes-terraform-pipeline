@@ -81,10 +81,7 @@ stages:
             - task: TerraformCLI@0
               displayName: Terraform Init
               inputs:
-                targetType: inline
-                script: |
-                  terraform version
-                  terraform init
+                command: 'init'
                 workingDirectory: '$(Pipeline.Workspace)/terraform-manifests-out'
                 backendType: 'azurerm'
                 backendServiceArm: 'terraform-aks-azurerm-svc-con'
