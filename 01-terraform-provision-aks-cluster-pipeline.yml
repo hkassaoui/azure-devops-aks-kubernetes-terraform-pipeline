@@ -84,6 +84,7 @@ stages:
                 backendServiceArm: 'terraform-aks-azurerm-svc-con'
                 backendAzureRmTenantId: '11624657-8ca2-4ce5-81c7-dcc936cbec0c'
                 backendAzureRmSubscriptionId: '65e65286-7f71-4ee3-9265-f7e2bc7e82c5'
+                ensureBackend: true
                 backendAzureRmResourceGroupName: 'terraform-storage-rg'
                 backendAzureRmStorageAccountName: 'hichemsa'
                 backendAzureRmContainerName: 'tfstatefiles'
