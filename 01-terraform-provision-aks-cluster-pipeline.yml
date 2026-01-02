@@ -29,33 +29,30 @@ stages:
            artifact: 'terraform-manifests-out'
            publishLocation: 'pipeline'
 
-       - task: TerraformInstaller@2
+       - task: TerraformInstaller@1
          displayName: Terraform Install
          inputs:
            terraformVersion: 'latest'
-       - task: TerraformCLI@2
+
+
+       - task: TerraformTask@5
          displayName: Terraform Init
          inputs:
+           provider: 'azurerm'
            command: 'init'
            workingDirectory: '$(System.DefaultWorkingDirectory)/terraform-manifests'
-           backendType: 'azurerm'
            backendServiceArm: 'terraform-aks-azurerm-svc-con'
-           backendAzureRmTenantId: '11624657-8ca2-4ce5-81c7-dcc936cbec0c'
-           backendAzureRmSubscriptionId: '65e65286-7f71-4ee3-9265-f7e2bc7e82c5'
-           ensureBackend: true
            backendAzureRmResourceGroupName: 'terraform-storage-rg'
            backendAzureRmStorageAccountName: 'hichemsa'
-           backendAzureRmStorageAccountSku: 'Standard_LRS'
            backendAzureRmContainerName: 'tfstatefiles'
            backendAzureRmKey: 'aks-base.tfstate'
-           allowTelemetryCollection: false
 
-       - task: TerraformCLI@2
-         displayName: Terraform Validate
+       - task: TerraformTask@5
+         displayName: Terraform validate
          inputs:
-           command: 'validate'
-           workingDirectory: '$(System.DefaultWorkingDirectory)/terraform-manifests'
-           allowTelemetryCollection: true
+            provider: 'azurerm'
+            command: 'validate'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/terraform-manifests'
 
  - stage: DeployAKSClusters
    jobs:
@@ -74,31 +71,32 @@ stages:
               inputs:
                 secureFile: 'aks-terraform-devops-ssh-key-ububtu.pub'
 
-            - task: TerraformCLI@0
-              displayName: Terraform Init
+            - task: TerraformTask@5
+              displayName: Terraform init
               inputs:
+                provider: 'azurerm'
                 command: 'init'
                 workingDirectory: '$(Pipeline.Workspace)/terraform-manifests-out'
-                backendType: 'azurerm'
                 backendServiceArm: 'terraform-aks-azurerm-svc-con'
                 backendAzureRmResourceGroupName: 'terraform-storage-rg'
                 backendAzureRmStorageAccountName: 'hichemsa'
                 backendAzureRmContainerName: 'tfstatefiles'
                 backendAzureRmKey: 'aks-$(DEV_ENVIRONMENT).tfstate'
-                allowTelemetryCollection: false
-            - task: TerraformCLI@0
+
+
+            - task: TerraformTask@5
               displayName: Terraform Plan
               inputs:
+                provider: 'azurerm'
                 command: 'plan'
-                workingDirectory: '$(Pipeline.Workspace)/terraform-manifests-out'
-                environmentServiceName: 'terraform-aks-azurerm-svc-con'
                 commandOptions: '-var ssh_public_key=$(sshkey.secureFilePath) -var environment=$(DEV_ENVIRONMENT) -out $(Pipeline.Workspace)/terraform-manifests-out/$(DEV_ENVIRONMENT)-$(Build.BuildId).out'
-                allowTelemetryCollection: false
-            - task: TerraformCLI@0
+                environmentServiceNameAzureRM: 'terraform-aks-azurerm-svc-con'
+                
+            - task: TerraformTask@5
               displayName: Terraform Apply
               inputs:
+                provider: 'azurerm'
                 command: 'apply'
                 workingDirectory: '$(Pipeline.Workspace)/terraform-manifests-out'
-                environmentServiceName: 'terraform-aks-azurerm-svc-con'
                 commandOptions: '$(Pipeline.Workspace)/terraform-manifests-out/$(DEV_ENVIRONMENT)-$(Build.BuildId).out'
-                allowTelemetryCollection: false
+                environmentServiceNameAzureRM: 'terraform-aks-azurerm-svc-con'
