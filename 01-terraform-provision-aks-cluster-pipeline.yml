@@ -84,6 +84,14 @@ stages:
               scriptLocation: inlineScript
               inlineScript: |
                 set -e
+
+                echo "Installing Terraform..."
+                curl -fsSL https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip -o terraform.zip
+                unzip terraform.zip
+                sudo mv terraform /usr/local/bin/
+
+                terraform version
+
                 export ARM_USE_OIDC=true
 
                 cd terraform-manifests
@@ -100,3 +108,4 @@ stages:
                   -out=tfplan.out
 
                 terraform apply -auto-approve tfplan.out
+
