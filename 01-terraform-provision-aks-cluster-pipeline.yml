@@ -71,6 +71,13 @@ stages:
               inputs:
                 secureFile: 'aks-terraform-devops-ssh-key-ububtu.pub'
 
+            - task: DownloadPipelineArtifact@2
+              displayName: Download Terraform Artifacts
+              inputs:
+                artifact: terraform-manifests-out
+                path: '$(Pipeline.Workspace)/terraform-manifests-out'
+
+
             - task: TerraformTask@5
               displayName: Terraform init
               inputs:
