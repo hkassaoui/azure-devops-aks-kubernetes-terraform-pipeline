@@ -76,8 +76,11 @@ stages:
             - task: TerraformCLI@0
               displayName: Terraform Init
               inputs:
-                command: 'init'
-                workingDirectory: '$(System.DefaultWorkingDirectory)/terraform-manifests'
+                targetType: inline
+                script: |
+                  terraform version
+                  terraform init
+                workingDirectory: '$(Pipeline.Workspace)/terraform-manifests-out'
                 backendType: 'azurerm'
                 backendServiceArm: 'terraform-aks-azurerm-svc-con'
                 backendAzureRmResourceGroupName: 'terraform-storage-rg'
