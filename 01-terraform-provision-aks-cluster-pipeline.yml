@@ -87,8 +87,9 @@ stages:
 
                 echo "Installing Terraform..."
                 curl -fsSL https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip -o terraform.zip
-                unzip terraform.zip
-                sudo mv terraform /usr/local/bin/
+                unzip -o terraform.zip
+                sudo mv -f terraform /usr/local/bin/terraform
+                sudo chmod +x /usr/local/bin/terraform
 
                 terraform version
 
@@ -96,7 +97,7 @@ stages:
 
                 cd terraform-manifests
 
-                terraform init -reconfigure\
+                terraform init \
                   -backend-config="resource_group_name=terraform-storage-rg" \
                   -backend-config="storage_account_name=hichemsa" \
                   -backend-config="container_name=tfstatefiles" \
@@ -108,4 +109,3 @@ stages:
                   -out=tfplan.out
 
                 terraform apply -auto-approve tfplan.out
-
