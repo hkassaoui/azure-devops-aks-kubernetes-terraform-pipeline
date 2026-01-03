@@ -3,7 +3,7 @@
 resource "azurerm_kubernetes_cluster_node_pool" "linux101" {
   #availability_zones    = [1, 2, 3]
   # Added June 2023
-  zones = [ 1, 2, 3 ]
+  zones = [ 1]
   #enable_auto_scaling  = true # COMMENTED OCT2024
   auto_scaling_enabled = true  # ADDED OCT2024
   kubernetes_cluster_id = azurerm_kubernetes_cluster.aks_cluster.id
@@ -30,3 +30,4 @@ resource "azurerm_kubernetes_cluster_node_pool" "linux101" {
   }
 }
 */
+
