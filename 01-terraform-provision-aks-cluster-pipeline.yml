@@ -72,6 +72,9 @@ stages:
                   command: 'init'
                   workingDirectory: '$(Pipeline.Workspace)/terraform-manifests-out'
                   backendServiceArm: 'terraform-aks-azurerm-svc-con'
+                  backendAzureRmStorageAccountName: 'hichemsa'
+                  backendAzureRmContainerName: 'tfstatefiles'
+                  backendAzureRmKey: 'aks-$(DEV_ENVIRONMENT).tfstate'
               - task: TerraformTask@5
                 displayName: Terraform Plan
                 inputs:
@@ -82,6 +85,7 @@ stages:
                   environmentServiceNameAzureRM: 'terraform-aks-azurerm-svc-con'
                   environmentAzureRmOverrideSubscriptionID: '65e65286-7f71-4ee3-9265-f7e2bc7e82c5'
               - task: TerraformTask@5
+                displayName: Terraform Apply
                 inputs:
                   provider: 'azurerm'
                   command: 'apply'
