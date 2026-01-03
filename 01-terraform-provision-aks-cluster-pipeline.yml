@@ -69,7 +69,7 @@ stages:
                 displayName: Terraform Init
                 inputs:
                   provider: 'azurerm'
-                  command: 'init'
+                  command: 'init -reconfigure'
                   workingDirectory: '$(Pipeline.Workspace)/terraform-manifests-out'
                   backendServiceArm: 'terraform-aks-azurerm-svc-con'
                   backendAzureRmStorageAccountName: 'hichemsa'
