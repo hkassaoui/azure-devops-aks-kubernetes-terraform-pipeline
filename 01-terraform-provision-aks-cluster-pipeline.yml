@@ -69,12 +69,10 @@ stages:
                 displayName: Terraform Init
                 inputs:
                   provider: 'azurerm'
-                  command: 'init -reconfigure'
+                  command: 'init'
                   workingDirectory: '$(Pipeline.Workspace)/terraform-manifests-out'
-                  backendServiceArm: 'terraform-aks-azurerm-svc-con'
-                  backendAzureRmStorageAccountName: 'hichemsa'
-                  backendAzureRmContainerName: 'tfstatefiles'
-                  backendAzureRmKey: 'aks-$(DEV_ENVIRONMENT).tfstate'
+                  commandOptions: '- reconfigure'
+                  environmentServiceNameAzureRM: 'terraform-aks-azurerm-svc-con'
               - task: TerraformTask@5
                 displayName: Terraform Plan
                 inputs:
