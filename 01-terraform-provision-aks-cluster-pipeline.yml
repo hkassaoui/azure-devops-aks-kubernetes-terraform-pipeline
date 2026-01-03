@@ -83,6 +83,7 @@ stages:
                   workingDirectory: '$(Pipeline.Workspace)/terraform-manifests-out'
                   commandOptions: '-var ssh_public_key=$(sshkey.secureFilePath) -var environment=$(DEV_ENVIRONMENT) -out $(Pipeline.Workspace)/terraform-manifests-out/$(DEV_ENVIRONMENT)-$(Build.BuildId).out'
                   environmentServiceNameAzureRM: 'terraform-aks-azurerm-svc-con'
+                  environmentAzureRmOverrideSubscriptionID: '65e65286-7f71-4ee3-9265-f7e2bc7e82c5'
               - task: TerraformTask@5
                 inputs:
                   provider: 'azurerm'
