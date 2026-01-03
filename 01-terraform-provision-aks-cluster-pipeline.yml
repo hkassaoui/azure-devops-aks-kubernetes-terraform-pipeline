@@ -72,7 +72,7 @@ stages:
                   command: 'init'
                   workingDirectory: '$(Pipeline.Workspace)/terraform-manifests-out'
                   commandOptions: '- reconfigure'
-                  environmentServiceNameAzureRM: 'terraform-aks-azurerm-svc-con'
+                  backendServiceArm: 'terraform-aks-azurerm-svc-con'
               - task: TerraformTask@5
                 displayName: Terraform Plan
                 inputs:
