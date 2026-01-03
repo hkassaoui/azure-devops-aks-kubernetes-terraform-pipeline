@@ -13,7 +13,7 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
     orchestrator_version = data.azurerm_kubernetes_service_versions.current.latest_version
     #availability_zones   = [1, 2, 3]
     # Added June2023
-    zones = [1]
+    #zones = [1]
     #enable_auto_scaling  = true # COMMENTED OCT2024
     auto_scaling_enabled = true  # ADDED OCT2024
     max_count            = 3
@@ -94,3 +94,4 @@ tags = {
 
 
 }
+
