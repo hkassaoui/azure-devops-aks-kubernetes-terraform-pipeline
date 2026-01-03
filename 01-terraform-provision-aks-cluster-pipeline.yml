@@ -20,3 +20,12 @@ stages:
             displayName: Terraform Install
             inputs:
               terraformVersion: 'latest'
+          - task: TerraformTask@5
+            inputs:
+              provider: 'azurerm'
+              command: 'init'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/terraform-manifests'
+              backendServiceArm: 'terraform-aks-azurerm-svc-con'
+              backendAzureRmStorageAccountName: 'hichemsa'
+              backendAzureRmContainerName: 'tfstatefiles'
+              backendAzureRmKey: 'aks-base.tfstate'
