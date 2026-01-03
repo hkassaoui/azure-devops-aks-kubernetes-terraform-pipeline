@@ -29,7 +29,7 @@ terraform {
 # Terraform State Storage to Azure Storage Container
   backend "azurerm" {
     #resource_group_name   = "terraform-storage-rg"
-    #storage_account_name  = "terraformstatexlrwdrzs"
+    #storage_account_name  = "hichemsa"
     #container_name        = "tfstatefiles"
     #key                   = "terraform-custom-vnet.tfstate"
   }  
@@ -39,7 +39,7 @@ terraform {
 
 # 2. Terraform Provider Block for AzureRM
 provider "azurerm" {
-  subscription_id = "XXXXXXX"
+  subscription_id = "65e65286-7f71-4ee3-9265-f7e2bc7e82c5"
   features {
     # Updated as part of June2023 to delete "ContainerInsights Resources" when deleting the Resource Group
     resource_group {
@@ -52,4 +52,5 @@ provider "azurerm" {
 resource "random_pet" "aksrandom" {
 
 }
+
 
